@@ -1,0 +1,97 @@
+views:
+  # Amazon Sales View
+  - name: amazon_sales_view
+    description: Amazon sales and profit data
+    
+    cubes:
+      - join_path: amazon_sales
+        includes:
+          - source
+          - brand
+          - channel
+          - country
+          - category
+          - sub_category
+          - is_ai_product
+          - date
+          - year
+          - year_month
+          - quarter_name
+          - total_gmv
+          - total_net_profit
+          - total_net_income
+          - total_orders
+          - total_refunds
+          - total_cost
+          - total_purchase_cost
+          - total_ads_spend
+          - total_commission
+          - total_selling_fees
+          - total_freight_cost
+          - total_fba_fees
+          - total_tax
+          - record_count
+  
+  # Shopify Sales View
+  - name: shopify_sales_view
+    description: Shopify sales and profit data
+    
+    cubes:
+      - join_path: shopify_sales
+        includes:
+          - source
+          - brand
+          - channel
+          - country
+          - category
+          - sub_category
+          - is_ai_product
+          - date
+          - year
+          - year_month
+          - quarter_name
+          - total_gmv
+          - total_net_income
+          - total_orders
+          - total_purchase_cost
+          - total_ads_spend
+          - total_selling_fees
+          - total_freight_cost
+          - warehousing_cost
+          - operation_staff_cost
+          - support_staff_cost
+          - product_dev_cost
+          - record_count
+  
+  # Domestic EC Sales View
+  - name: domesticec_sales_view
+    description: Domestic EC sales and profit data
+    
+    cubes:
+      - join_path: domesticec_sales
+        includes:
+          - source
+          - brand
+          - channel
+          - country
+          - category
+          - sub_category
+          - is_ai_product
+          - date
+          - year
+          - year_month
+          - quarter_name
+          - total_gmv
+          - total_net_profit
+          - total_net_income
+          - total_orders
+          - total_refunds
+          - total_cost
+          - total_purchase_cost
+          - total_ads_spend
+          - total_commission
+          - total_selling_fees
+          - total_freight_cost
+          - total_fba_fees
+          - total_tax
+          - record_count

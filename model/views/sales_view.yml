@@ -1,0 +1,52 @@
+views:
+  - name: spu_sales_view
+    title: SPU销售视图
+    description: 提供SPU销售数据分析，包含销售额、渠道、地区、品类和时间维度
+
+    cubes:
+      - join_path: spu_sales
+        includes:
+          # 维度
+          - spu_id
+          - channel
+          - category
+          - date
+          - su_name
+          - image
+          - listing_date_including_presale
+          - listing_month_including_presale
+          - listing_year_including_presale
+          # 度量
+          - count
+          - sales_amount
+          - sales_qty
+          - ads_cost
+          - cost_of_goods_sold
+          - commission_fee
+          - shipping
+          - net_income
+          - profit
+          - net_profit
+      
+      - join_path: order_items
+        prefix: true
+        includes:
+          # 地区维度
+          - shipping_country
+          - shipping_country_code
+          - shipping_city
+          - customer_country
+          - customer_city
+          # 其他维度
+          - brand
+          - shop_url
+          - financial_status
+          - fulfillment_status
+          - created_date
+          - created_at
+          # 度量
+          - count
+          - total_quantity
+          - total_revenue
+          - total_discount
+          - avg_price

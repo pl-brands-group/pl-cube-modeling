@@ -1,0 +1,410 @@
+cubes:
+  # Amazon Sales Cube
+  - name: amazon_sales
+    sql_table: Amazon.ads_amazon_profit_model_tableau
+    
+    joins:
+      - name: products
+        sql: "{CUBE}.spu_id = {products.spu_id}"
+        relationship: many_to_one
+    
+    dimensions:
+      - name: id
+        sql: "CONCAT('Amazon-', CAST(date AS STRING), '-', COALESCE(spu_id, ''), '-', COALESCE(country, ''), '-', COALESCE(channel, ''))"
+        type: string
+        primary_key: true
+      
+      - name: source
+        sql: "'Amazon'"
+        type: string
+      
+      - name: brand
+        sql: brand
+        type: string
+      
+      - name: channel
+        sql: channel
+        type: string
+      
+      - name: country
+        sql: country
+        type: string
+      
+      - name: spu_id
+        sql: spu_id
+        type: string
+      
+      - name: category
+        sql: category
+        type: string
+      
+      - name: sub_category
+        sql: sub_category
+        type: string
+      
+      - name: title
+        sql: title
+        type: string
+      
+      - name: is_ai_product
+        sql: is_ai_product
+        type: string
+      
+      - name: date
+        sql: date
+        type: time
+      
+      - name: month
+        sql: month
+        type: string
+      
+      - name: year
+        sql: year
+        type: number
+      
+      - name: year_month
+        sql: year_month
+        type: string
+      
+      - name: quarter_name
+        sql: quarter_name
+        type: string
+    
+    measures:
+      - name: total_gmv
+        sql: gmv_total_usd
+        type: sum
+        description: Total Gross Merchandise Value in USD
+      
+      - name: total_net_profit
+        sql: net_profit_total_usd
+        type: sum
+        description: Total Net Profit in USD
+      
+      - name: total_net_income
+        sql: net_income_total_usd
+        type: sum
+        description: Total Net Income in USD
+      
+      - name: total_orders
+        sql: amz_order_quantity
+        type: sum
+        description: Total number of orders
+      
+      - name: total_refunds
+        sql: amz_refund_quantity
+        type: sum
+        description: Total number of refunds
+      
+      - name: total_cost
+        sql: cost_total_usd
+        type: sum
+        description: Total cost in USD
+      
+      - name: total_purchase_cost
+        sql: cost_sales_purchase_usd
+        type: sum
+        description: Total purchase cost in USD
+      
+      - name: total_ads_spend
+        sql: ads_total_usd
+        type: sum
+        description: Total advertising spend in USD
+      
+      - name: total_commission
+        sql: commission_total_usd
+        type: sum
+        description: Total commission fees in USD
+      
+      - name: total_selling_fees
+        sql: commission_selling_fees_usd
+        type: sum
+        description: Total selling fees in USD
+      
+      - name: total_freight_cost
+        sql: freight_total_usd
+        type: sum
+        description: Total freight cost in USD
+      
+      - name: total_fba_fees
+        sql: freight_fba_fees_usd
+        type: sum
+        description: Total FBA fees in USD
+      
+      - name: total_tax
+        sql: tax_a_total_usd
+        type: sum
+        description: Total tax collected in USD
+      
+      - name: record_count
+        type: count
+  
+  # Shopify Sales Cube
+  - name: shopify_sales
+    sql_table: shopify_transform.ads_created_shopify_items_all_fee_aggregation
+    
+    joins:
+      - name: products
+        sql: "{CUBE}.spu_id = {products.spu_id}"
+        relationship: many_to_one
+    
+    dimensions:
+      - name: id
+        sql: "CONCAT('Shopify-', CAST(date AS STRING), '-', COALESCE(spu_id, ''), '-', COALESCE(country, ''))"
+        type: string
+        primary_key: true
+      
+      - name: source
+        sql: "'Shopify'"
+        type: string
+      
+      - name: brand
+        sql: brand
+        type: string
+      
+      - name: channel
+        sql: channel
+        type: string
+      
+      - name: country
+        sql: country
+        type: string
+      
+      - name: spu_id
+        sql: spu_id
+        type: string
+      
+      - name: category
+        sql: category
+        type: string
+      
+      - name: sub_category
+        sql: sub_category
+        type: string
+      
+      - name: title
+        sql: title
+        type: string
+      
+      - name: is_ai_product
+        sql: is_ai_product
+        type: string
+      
+      - name: date
+        sql: date
+        type: time
+      
+      - name: month
+        sql: month
+        type: number
+      
+      - name: year
+        sql: year
+        type: number
+      
+      - name: year_month
+        sql: year_month
+        type: string
+      
+      - name: quarter_name
+        sql: quarter_name
+        type: string
+    
+    measures:
+      - name: total_gmv
+        sql: sales_gmv_usd
+        type: sum
+        description: Total Gross Merchandise Value in USD
+      
+      - name: total_net_income
+        sql: sales_net_income_usd
+        type: sum
+        description: Total Net Income in USD
+      
+      - name: total_orders
+        sql: sales_orders
+        type: sum
+        description: Total number of orders
+      
+      - name: total_purchase_cost
+        sql: sales_product_purchased_cost_usd
+        type: sum
+        description: Total purchase cost in USD
+      
+      - name: total_ads_spend
+        sql: split_ad_spend_usd
+        type: sum
+        description: Total advertising spend in USD
+      
+      - name: total_selling_fees
+        sql: platform_fee_usd
+        type: sum
+        description: Total platform fees in USD
+      
+      - name: total_freight_cost
+        sql: inuse_est_actual_shipping_cost_usd
+        type: sum
+        description: Total shipping cost in USD
+      
+      - name: warehousing_cost
+        sql: warehousing_cost_usd
+        type: sum
+        description: Total warehousing cost in USD
+      
+      - name: operation_staff_cost
+        sql: split_operations_staff_cost_usd
+        type: sum
+        description: Operations staff cost in USD
+      
+      - name: support_staff_cost
+        sql: split_support_staff_cost_usd
+        type: sum
+        description: Support staff cost in USD
+      
+      - name: product_dev_cost
+        sql: split_product_dev_cost_usd
+        type: sum
+        description: Product development cost in USD
+      
+      - name: record_count
+        type: count
+  
+  # Domestic EC Sales Cube
+  - name: domesticec_sales
+    sql_table: DomesticEC.dws_tm_profit_model
+    
+    joins:
+      - name: products
+        sql: "{CUBE}.spu_id = {products.spu_id}"
+        relationship: many_to_one
+    
+    dimensions:
+      - name: id
+        sql: "CONCAT('DomesticEC-', CAST(date AS STRING), '-', COALESCE(spu_id, ''), '-', COALESCE(country, ''), '-', COALESCE(channel, ''))"
+        type: string
+        primary_key: true
+      
+      - name: source
+        sql: "'DomesticEC'"
+        type: string
+      
+      - name: brand
+        sql: brand
+        type: string
+      
+      - name: channel
+        sql: channel
+        type: string
+      
+      - name: country
+        sql: country
+        type: string
+      
+      - name: spu_id
+        sql: spu_id
+        type: string
+      
+      - name: category
+        sql: category
+        type: string
+      
+      - name: sub_category
+        sql: sub_category
+        type: string
+      
+      - name: title
+        sql: title
+        type: string
+      
+      - name: is_ai_product
+        sql: is_ai_product
+        type: string
+      
+      - name: date
+        sql: date
+        type: time
+      
+      - name: month
+        sql: month
+        type: string
+      
+      - name: year
+        sql: year
+        type: number
+      
+      - name: year_month
+        sql: year_month
+        type: string
+      
+      - name: quarter_name
+        sql: quarter_name
+        type: string
+    
+    measures:
+      - name: total_gmv
+        sql: gmv_total_usd
+        type: sum
+        description: Total Gross Merchandise Value in USD
+      
+      - name: total_net_profit
+        sql: net_profit_total_usd
+        type: sum
+        description: Total Net Profit in USD
+      
+      - name: total_net_income
+        sql: net_income_total_usd
+        type: sum
+        description: Total Net Income in USD
+      
+      - name: total_orders
+        sql: amz_order_quantity
+        type: sum
+        description: Total number of orders
+      
+      - name: total_refunds
+        sql: amz_refund_quantity
+        type: sum
+        description: Total number of refunds
+      
+      - name: total_cost
+        sql: cost_total_usd
+        type: sum
+        description: Total cost in USD
+      
+      - name: total_purchase_cost
+        sql: cost_sales_purchase_usd
+        type: sum
+        description: Total purchase cost in USD
+      
+      - name: total_ads_spend
+        sql: ads_total_usd
+        type: sum
+        description: Total advertising spend in USD
+      
+      - name: total_commission
+        sql: commission_total_usd
+        type: sum
+        description: Total commission fees in USD
+      
+      - name: total_selling_fees
+        sql: commission_selling_fees_usd
+        type: sum
+        description: Total selling fees in USD
+      
+      - name: total_freight_cost
+        sql: freight_total_usd
+        type: sum
+        description: Total freight cost in USD
+      
+      - name: total_fba_fees
+        sql: freight_fba_fees_usd
+        type: sum
+        description: Total FBA fees in USD
+      
+      - name: total_tax
+        sql: tax_a_total_usd
+        type: sum
+        description: Total tax collected in USD
+      
+      - name: record_count
+        type: count

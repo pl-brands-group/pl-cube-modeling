@@ -1,0 +1,97 @@
+cubes:
+  - name: order_items
+    sql_table: orders.dwd_table_shopify_order_item_new
+    
+    dimensions:
+      - name: order_id
+        sql: order_id
+        type: string
+        primary_key: true
+      
+      - name: item_id
+        sql: item_id
+        type: string
+      
+      - name: spu_id
+        sql: spu_id
+        type: string
+      
+      - name: sku_id
+        sql: sku_id
+        type: string
+      
+      - name: channel
+        sql: channel
+        type: string
+      
+      - name: shop_url
+        sql: shop_url
+        type: string
+      
+      - name: brand
+        sql: brand
+        type: string
+      
+      - name: shipping_country
+        sql: shipping_country
+        type: string
+      
+      - name: shipping_country_code
+        sql: shipping_country_code
+        type: string
+      
+      - name: shipping_city
+        sql: shipping_city
+        type: string
+      
+      - name: customer_country
+        sql: customer_country
+        type: string
+      
+      - name: customer_city
+        sql: customer_city
+        type: string
+      
+      - name: created_date
+        sql: created_date
+        type: time
+      
+      - name: created_at
+        sql: created_at
+        type: time
+      
+      - name: financial_status
+        sql: financial_status
+        type: string
+      
+      - name: fulfillment_status
+        sql: fulfillment_status
+        type: string
+      
+      - name: item_title
+        sql: item_title
+        type: string
+    
+    measures:
+      - name: count
+        type: count
+      
+      - name: total_quantity
+        sql: item_quantity
+        type: sum
+        description: 订单数量
+      
+      - name: total_revenue
+        sql: item_shop_price
+        type: sum
+        description: 订单收入
+      
+      - name: total_discount
+        sql: item_discount_amount
+        type: sum
+        description: 折扣金额
+      
+      - name: avg_price
+        sql: item_shop_price
+        type: avg
+        description: 平均价格

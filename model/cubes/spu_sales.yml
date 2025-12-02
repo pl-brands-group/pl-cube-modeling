@@ -1,0 +1,90 @@
+cubes:
+  - name: spu_sales
+    sql_table: orders.ads_all_channel_public_sales_date
+    
+    dimensions:
+      - name: spu_id
+        sql: spu
+        type: string
+        primary_key: true
+      
+      - name: channel
+        sql: channel
+        type: string
+      
+      - name: su_name
+        sql: su_name
+        type: string
+      
+      - name: category
+        sql: category
+        type: string
+      
+      - name: image
+        sql: image
+        type: string
+      
+      - name: date
+        sql: date
+        type: time
+      
+      - name: listing_date_including_presale
+        sql: listing_date_including_presale
+        type: time
+      
+      - name: listing_month_including_presale
+        sql: listing_month_including_presale
+        type: string
+      
+      - name: listing_year_including_presale
+        sql: listing_year_including_presale
+        type: string
+    
+    measures:
+      - name: count
+        type: count
+      
+      - name: sales_amount
+        sql: gmv
+        type: sum
+        description: SPU销售额(GMV)
+      
+      - name: sales_qty
+        sql: sales_qty
+        type: sum
+        description: 销售数量
+      
+      - name: ads_cost
+        sql: ads_cost
+        type: sum
+        description: 广告费用
+      
+      - name: cost_of_goods_sold
+        sql: cost_of_goods_sold
+        type: sum
+        description: 销售成本
+      
+      - name: commission_fee
+        sql: commission_fee
+        type: sum
+        description: 佣金费用
+      
+      - name: shipping
+        sql: shipping
+        type: sum
+        description: 运费
+      
+      - name: net_income
+        sql: net_income
+        type: sum
+        description: 净收入
+      
+      - name: profit
+        sql: profit
+        type: sum
+        description: 利润
+      
+      - name: net_profit
+        sql: net_profit
+        type: sum
+        description: 净利润

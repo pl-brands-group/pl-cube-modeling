@@ -1,0 +1,56 @@
+views:
+  - name: purchase_summary_view
+    description: 采购单汇总视图 - 包含供应商、订单状态、采购数量、入库情况、完成率、采购金额和延期扣款金额
+
+    cubes:
+      - join_path: ads_purchase_query_sum_clean
+        includes:
+          # 维度字段
+          - name: seller
+            alias: supplier_name
+            
+          - name: seller_shorted
+            alias: supplier_code
+            
+          - name: po_id
+            alias: purchase_order_id
+            
+          - name: status
+            alias: order_status
+            
+          - name: po_date
+            alias: purchase_date
+            
+          - name: finish_time
+            alias: finish_date
+            
+          - name: is_finished
+            alias: contract_finished
+          
+          # 指标字段
+          - name: sum_qty
+            alias: purchase_quantity
+            
+          - name: sum_inqty
+            alias: received_quantity
+            
+          - name: unreceived_qty
+            alias: unreceived_quantity
+            
+          - name: completion_rate
+            alias: completion_rate
+            
+          - name: sum_price
+            alias: purchase_amount
+            
+          - name: total_delay_cost
+            alias: delay_deduction
+            
+          - name: profit_limit
+            alias: profit_limit
+            
+          - name: received_delay_cost
+            alias: received_delay_cost
+            
+          - name: unreceived_delay_cost
+            alias: unreceived_delay_cost

@@ -1,0 +1,62 @@
+views:
+  # 采购分析视图：连接采购单和采购入库单
+  - name: purchase_analytics_view
+
+    cubes:
+      # 主 cube：采购单
+      - join_path: dwd_purchase_query_sku_clean
+        includes:
+          - po_id
+          - sku_id
+          - po_date
+          - status
+          - seller
+          - finish_time
+          - delivery_date
+          - qty
+          - inqty
+          - unit_price
+          - price
+          - sum_price
+          - profit_limit
+          - unreceived_qty
+          - unreceived_delay_days
+          - unreceived_delay_cost
+
+      # 关联 cube：采购入库单（通过 po_id 和 sku_id 连接）
+      - join_path: dwd_purchase_query_sku_clean.dwd_purchase_in_query_sku_clean
+        prefix: true
+        includes:
+          - io_date
+          - qty
+          - count
+          - delay_days
+
+    # 去重计数指标
+    measures:
+      # 去重的采购单数量
+      - name: distinct_po_count
+        sql: "{dwd_purchase_query_sku_clean.po_id}"
+        type: count_distinct
+
+      # 去重的 SKU 数量
+      - name: distinct_sku_count
+        sql: "{dwd_purchase_query_sku_clean.sku_id}"
+        type: count_distinct
+
+      # 去重的卖家数量
+      - name: distinct_seller_count
+        sql: "{dwd_purchase_query_sku_clean.seller}"
+        type: count_distinct
+
+      # 去重的采购单-SKU组合数量（用于判断唯一的采购记录）
+      - name: distinct_po_sku_count
+        sql: "CONCAT(CAST({dwd_purchase_query_sku_clean.po_id} AS STRING), '-', {dwd_purchase_query_sku_clean.sku_id})"
+        type: count_distinct
+
+      # 总延期费用 = MIN(未入库延期费用, 利润额度)
+      # 注意：暂时只计算未入库延期费用，已入库延期费用由于技术限制暂不包含
+      - name: total_delay_cost
+        sql: "LEAST({dwd_purchase_query_sku_clean.unreceived_delay_cost}, {dwd_purchase_query_sku_clean.profit_limit})"
+        type: number
+

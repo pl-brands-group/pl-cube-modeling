@@ -1,0 +1,113 @@
+cubes:
+  # 聚水潭采购订单汇总表（基于 dwd_purchase_query_sku_clean 聚合）
+  - name: ads_purchase_query_sum_clean
+    sql: |
+      SELECT 
+        po_id,
+        seller,
+        SUBSTR(seller, 1, 10) as seller_shorted,
+        status,
+        po_date,
+        finish_time,
+        CASE WHEN finish_time IS NOT NULL THEN 'Y' ELSE 'N' END as is_finished,
+        SUM(qty) as sum_qty,
+        SUM(inqty) as sum_inqty,
+        SUM(price) as sum_price,
+        MAX(sum_price) as po_sum_price,
+        MAX(profit_limit) as po_profit_limit,
+        SUM(qty - inqty) as unreceived_qty,
+        SUM(sum_price * 0.1 / 30.0 * ((qty - inqty) / NULLIF(qty, 0)) * 
+            GREATEST(0, DATE_DIFF(CURRENT_DATE(), CAST(delivery_date AS DATE), DAY))) as unreceived_delay_cost
+      FROM {dwd_purchase_query_sku_clean.sql()}
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+    data_source: default
+
+    dimensions:
+      - name: po_id
+        sql: po_id
+        type: number
+        primary_key: true
+
+      - name: seller
+        sql: seller
+        type: string
+        description: 供应商名称
+
+      - name: seller_shorted
+        sql: seller_shorted
+        type: string
+        description: 供应商简称/编码
+
+      - name: status
+        sql: status
+        type: string
+        description: 订单状态
+
+      - name: po_date
+        sql: po_date
+        type: time
+        description: 采购日期
+
+      - name: finish_time
+        sql: finish_time
+        type: time
+        description: 完成日期
+
+      - name: is_finished
+        sql: is_finished
+        type: string
+        description: 是否完成
+
+    measures:
+      - name: count
+        type: count
+
+      # 采购数量（SKU级汇总）
+      - name: sum_qty
+        sql: sum_qty
+        type: sum
+
+      # 已入库数量（SKU级汇总）
+      - name: sum_inqty
+        sql: sum_inqty
+        type: sum
+
+      # 未入库数量（SKU级汇总）
+      - name: unreceived_qty
+        sql: unreceived_qty
+        type: sum
+
+      # 完成率 = 已入库数量 / 采购数量
+      - name: completion_rate
+        sql: "CASE WHEN sum_qty > 0 THEN sum_inqty / sum_qty ELSE 0 END"
+        type: avg
+
+      # 采购金额（SKU级汇总）
+      - name: sum_price
+        sql: sum_price
+        type: sum
+
+      # 采购单总金额（PO级）
+      - name: po_sum_price
+        sql: po_sum_price
+        type: sum
+
+      # 利润额度（PO级的10%）
+      - name: profit_limit
+        sql: po_profit_limit
+        type: sum
+
+      # 未入库延期费用（基于SKU明细计算）
+      - name: unreceived_delay_cost
+        sql: unreceived_delay_cost
+        type: sum
+
+      # 已入库延期费用 (需要入库表数据，暂时设为0)
+      - name: received_delay_cost
+        sql: "0"
+        type: sum
+
+      # 总延期扣款 = MIN(未入库延期费用 + 已入库延期费用, 利润额度)
+      - name: total_delay_cost
+        sql: "LEAST(unreceived_delay_cost, po_profit_limit)"
+        type: sum

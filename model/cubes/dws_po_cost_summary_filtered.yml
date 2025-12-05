@@ -4,7 +4,7 @@ cubes:
       SELECT * 
       FROM Jushuitan.dws_po_cost_summary
       WHERE item_type = '成品'
-        AND DATE(PARSE_DATETIME('%Y-%m-%d %H:%M:%S', po_date)) > DATE '2025-02-28'
+        AND DATE(po_date) > DATE('2025-02-28')
         AND status IN ('Confirmed', 'Finished')
         AND labels NOT IN ('返修单', '返修退货', '代售')
     data_source: default

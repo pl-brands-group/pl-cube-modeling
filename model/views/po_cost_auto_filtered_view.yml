@@ -1,0 +1,27 @@
+views:
+  - name: po_cost_auto_filtered_view
+    description: "采购成本汇总视图 - 自动应用筛选条件（成品、2025-02-28后、已确认/完成状态、非返修/代售订单）"
+    
+    cubes:
+      - join_path: dws_po_cost_summary_filtered
+        includes:
+          # 维度
+          - po_id
+          - status
+          - item_type
+          - labels
+          - is_finished
+          - seller
+          - seller_shorted
+          - po_date
+          
+          # 指标
+          - count
+          - sum_qty
+          - sum_inqty
+          - sum_not_inqty
+          - completion_rate
+          - sum_price
+          - po_unreceived_delay_cost
+          - po_received_delay_cost
+          - total_delay_cost

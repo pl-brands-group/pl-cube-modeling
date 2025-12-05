@@ -84,6 +84,7 @@ cubes:
           AND DATE({CUBE}.po_date) > DATE '2025-02-28'
           AND {CUBE}.status IN ('Confirmed', 'Finished')
           AND {CUBE}.labels NOT IN ('返修单', '返修退货', '代售')
+          and {CUBE}.seller is not null
 
     pre_aggregations:
       # Pre-aggregation definitions go here.

@@ -19,7 +19,7 @@ views:
           - count
           - sum_qty
           - sum_inqty
-          - sum_not_inqty
+          - sum_uninqty
           - completion_rate
           - sum_price
           - po_unreceived_delay_cost

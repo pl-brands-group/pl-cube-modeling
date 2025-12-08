@@ -1,7 +1,9 @@
 cubes:
-  - name: dws_po_cost_summary
+  - name: po_cost
     sql_table: Jushuitan.dws_po_cost_summary
     data_source: default
+    description: 聚水潭采购入库单概况
+
 
     joins: []
 
@@ -51,7 +53,7 @@ cubes:
         sql: sum_inqty
         type: sum
 
-      - name: sum_not_inqty
+      - name: sum_uninqty
         sql: sum_not_inqty
         type: sum
 
@@ -81,7 +83,7 @@ cubes:
           {CUBE}.item_type = '成品'
           AND DATE({CUBE}.po_date) > DATE '2025-02-28'
           AND {CUBE}.status IN ('Confirmed', 'Finished')
-          AND {CUBE}.labels NOT IN ('返修单', '返修退货', '代售')
+          AND ({CUBE}.labels NOT IN ('返修单', '返修退货', '代售') OR {CUBE}.labels IS NULL)
 
     pre_aggregations:
       # Pre-aggregation definitions go here.

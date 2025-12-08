@@ -3,7 +3,7 @@ views:
     description: 成品采购成本汇总视图（已过滤）- 仅包含成品、2025-02-28之后、已确认/完成状态、非返修/代售订单
     
     cubes:
-      - join_path: dws_po_cost_summary
+      - join_path: po_cost
         includes:
           # 维度字段
           - po_id
@@ -19,7 +19,7 @@ views:
           - count
           - sum_qty
           - sum_inqty
-          - sum_not_inqty
+          - sum_uninqty
           - completion_rate
           - sum_price
           - po_unreceived_delay_cost

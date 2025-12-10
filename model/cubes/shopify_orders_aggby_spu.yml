@@ -1,0 +1,216 @@
+cubes:
+  - name: shopify_orders_aggby_spu
+    sql_table: shopify_transform.ads_created_orders_aggby_spu
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: date
+        sql: date
+        type: time
+        primary_key: true
+
+      - name: country_code
+        sql: country_code
+        type: string
+        primary_key: true
+
+      - name: spu_id
+        sql: spu_id
+        type: string
+        primary_key: true
+
+      - name: is_ai_product
+        sql: is_ai_product
+        type: string
+
+    measures:
+      - name: count
+        type: count
+
+      - name: item_quantity_by_spu
+        sql: item_quantity_by_spu
+        type: sum
+
+      - name: line_item_gross_amount_usd_by_spu
+        sql: line_item_gross_amount_usd_by_spu
+        type: sum
+
+      - name: line_item_discount_usd_by_spu
+        sql: line_item_discount_usd_by_spu
+        type: sum
+
+      - name: line_item_tax_amount_usd_by_spu
+        sql: line_item_tax_amount_usd_by_spu
+        type: sum
+
+      - name: line_item_shipping_amount_usd_by_spu
+        sql: line_item_shipping_amount_usd_by_spu
+        type: sum
+
+      - name: line_item_gmv_usd_by_spu
+        sql: line_item_gmv_usd_by_spu
+        type: sum
+
+      - name: split_target_fb_spend_by_spu
+        sql: split_target_fb_spend_by_spu
+        type: sum
+
+      - name: unsplit_target_fb_spend_by_spu
+        sql: unsplit_target_fb_spend_by_spu
+        type: sum
+
+      - name: split_target_fb_roas_by_spu
+        sql: split_target_fb_roas_by_spu
+        type: sum
+
+      - name: unsplit_target_fb_roas_by_spu
+        sql: unsplit_target_fb_roas_by_spu
+        type: sum
+
+      - name: fb_spend_usd_by_spu
+        sql: fb_spend_usd_by_spu
+        type: sum
+
+      - name: fb_impressions_by_spu
+        sql: fb_impressions_by_spu
+        type: sum
+
+      - name: fb_inline_link_clicks_by_spu
+        sql: fb_inline_link_clicks_by_spu
+        type: sum
+
+      - name: fb_view_content_by_spu
+        sql: fb_view_content_by_spu
+        type: sum
+
+      - name: fb_add_to_cart_by_spu
+        sql: fb_add_to_cart_by_spu
+        type: sum
+
+      - name: fb_purchase_by_spu
+        sql: fb_purchase_by_spu
+        type: sum
+
+      - name: fb_purchase_gmv_by_spu
+        sql: fb_purchase_gmv_by_spu
+        type: sum
+
+      - name: google_spend_usd_by_spu
+        sql: google_spend_usd_by_spu
+        type: sum
+
+      - name: google_metrics_impressions_by_spu
+        sql: google_metrics_impressions_by_spu
+        type: sum
+
+      - name: google_metrics_clicks_by_spu
+        sql: google_metrics_clicks_by_spu
+        type: sum
+
+      - name: split_fb_spend_usd_by_spu
+        sql: split_fb_spend_usd_by_spu
+        type: sum
+
+      - name: split_fb_impressions_by_spu
+        sql: split_fb_impressions_by_spu
+        type: sum
+
+      - name: split_fb_inline_link_clicks_by_spu
+        sql: split_fb_inline_link_clicks_by_spu
+        type: sum
+
+      - name: split_fb_view_content_by_spu
+        sql: split_fb_view_content_by_spu
+        type: sum
+
+      - name: split_fb_add_to_cart_by_spu
+        sql: split_fb_add_to_cart_by_spu
+        type: sum
+
+      - name: split_fb_purchase_by_spu
+        sql: split_fb_purchase_by_spu
+        type: sum
+
+      - name: split_fb_purchase_gmv_by_spu
+        sql: split_fb_purchase_gmv_by_spu
+        type: sum
+
+      - name: split_google_spend_usd_by_spu
+        sql: split_google_spend_usd_by_spu
+        type: sum
+
+      - name: split_google_metrics_impressions_by_spu
+        sql: split_google_metrics_impressions_by_spu
+        type: sum
+
+      - name: split_google_metrics_clicks_by_spu
+        sql: split_google_metrics_clicks_by_spu
+        type: sum
+
+      - name: itemsviewed
+        sql: "{CUBE}.`itemsViewed`"
+        type: sum
+
+      - name: itemsaddedtocart
+        sql: "{CUBE}.`itemsAddedToCart`"
+        type: sum
+
+      - name: itemspurchased
+        sql: "{CUBE}.`itemsPurchased`"
+        type: sum
+
+      - name: itemscheckedout
+        sql: "{CUBE}.`itemsCheckedOut`"
+        type: sum
+
+      - name: itemrevenue
+        sql: "{CUBE}.`itemRevenue`"
+        type: sum
+
+    pre_aggregations:
+      - name: main
+        dimensions:
+          - spu_id
+          - is_ai_product
+        time_dimension: date
+        granularity: day
+        measures:
+          - count
+          - item_quantity_by_spu
+          - line_item_gross_amount_usd_by_spu
+          - line_item_discount_usd_by_spu
+          - line_item_tax_amount_usd_by_spu
+          - line_item_shipping_amount_usd_by_spu
+          - line_item_gmv_usd_by_spu
+          - split_target_fb_spend_by_spu
+          - unsplit_target_fb_spend_by_spu
+          - split_target_fb_roas_by_spu
+          - unsplit_target_fb_roas_by_spu
+          - fb_spend_usd_by_spu
+          - fb_impressions_by_spu
+          - fb_inline_link_clicks_by_spu
+          - fb_view_content_by_spu
+          - fb_add_to_cart_by_spu
+          - fb_purchase_by_spu
+          - fb_purchase_gmv_by_spu
+          - google_spend_usd_by_spu
+          - google_metrics_impressions_by_spu
+          - google_metrics_clicks_by_spu
+          - split_fb_spend_usd_by_spu
+          - split_fb_impressions_by_spu
+          - split_fb_inline_link_clicks_by_spu
+          - split_fb_view_content_by_spu
+          - split_fb_add_to_cart_by_spu
+          - split_fb_purchase_by_spu
+          - split_fb_purchase_gmv_by_spu
+          - split_google_spend_usd_by_spu
+          - split_google_metrics_impressions_by_spu
+          - split_google_metrics_clicks_by_spu
+          - itemsviewed
+          - itemsaddedtocart
+          - itemspurchased
+          - itemscheckedout
+          - itemrevenue
+

@@ -1,0 +1,47 @@
+views:
+  - name: shopify_orders_spu_view
+    description: "Shopify按SPU聚合的订单和广告数据视图"
+    
+    cubes:
+      - join_path: shopify_orders_aggby_spu
+        includes:
+          - date
+          - country_code
+          - spu_id
+          - is_ai_product
+          - count
+          - item_quantity_by_spu
+          - line_item_gross_amount_usd_by_spu
+          - line_item_discount_usd_by_spu
+          - line_item_tax_amount_usd_by_spu
+          - line_item_shipping_amount_usd_by_spu
+          - line_item_gmv_usd_by_spu
+          - split_target_fb_spend_by_spu
+          - unsplit_target_fb_spend_by_spu
+          - split_target_fb_roas_by_spu
+          - unsplit_target_fb_roas_by_spu
+          - fb_spend_usd_by_spu
+          - fb_impressions_by_spu
+          - fb_inline_link_clicks_by_spu
+          - fb_view_content_by_spu
+          - fb_add_to_cart_by_spu
+          - fb_purchase_by_spu
+          - fb_purchase_gmv_by_spu
+          - google_spend_usd_by_spu
+          - google_metrics_impressions_by_spu
+          - google_metrics_clicks_by_spu
+          - split_fb_spend_usd_by_spu
+          - split_fb_impressions_by_spu
+          - split_fb_inline_link_clicks_by_spu
+          - split_fb_view_content_by_spu
+          - split_fb_add_to_cart_by_spu
+          - split_fb_purchase_by_spu
+          - split_fb_purchase_gmv_by_spu
+          - split_google_spend_usd_by_spu
+          - split_google_metrics_impressions_by_spu
+          - split_google_metrics_clicks_by_spu
+          - itemsviewed
+          - itemsaddedtocart
+          - itemspurchased
+          - itemscheckedout
+          - itemrevenue

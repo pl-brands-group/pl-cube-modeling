@@ -54,7 +54,7 @@ cubes:
         type: sum
 
       - name: sum_uninqty
-        sql: sum_not_inqty
+        sql: sum_uninqty
         type: sum
 
       - name: completion_rate

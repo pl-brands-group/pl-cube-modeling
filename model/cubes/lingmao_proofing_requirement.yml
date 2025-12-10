@@ -11,6 +11,7 @@ cubes:
         type: string
         primary_key: true
 
+      #spu
       - name: sample_code
         sql: sample_code
         type: string
@@ -22,7 +23,8 @@ cubes:
       - name: img_url
         sql: img_url
         type: string
-
+     
+      #su_name
       - name: planing_name
         sql: planing_name
         type: string

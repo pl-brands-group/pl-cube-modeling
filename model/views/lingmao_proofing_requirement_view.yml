@@ -6,10 +6,10 @@ views:
       - join_path: lingmao_proofing_requirement
         includes:
           - id
-          - sample_code
+          - sample_code #spu
           - sample_name
           - img_url
-          - planing_name
+          - planing_name #su_name
           - research_archive_state_desc
           - template_type
           - audit_state_value

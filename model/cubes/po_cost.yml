@@ -54,11 +54,7 @@ cubes:
         type: sum
 
       - name: sum_uninqty
-<<<<<<< HEAD
         sql: sum_uninqty
-=======
-        sql: sum_not_inqty
->>>>>>> upstream/master
         type: sum
 
       - name: completion_rate

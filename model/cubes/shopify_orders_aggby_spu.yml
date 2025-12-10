@@ -169,6 +169,25 @@ cubes:
         sql: "{CUBE}.`itemRevenue`"
         type: sum
 
+    segments:
+      - name: valid_spu
+        sql: "{CUBE}.spu_id IS NOT NULL AND {CUBE}.spu_id <> ''"
+
+      - name: non_ai_product
+        sql: "{CUBE}.is_ai_product = 'N'"
+
+      - name: has_activity
+        sql: |
+          NOT (
+            ({CUBE}.item_quantity_by_spu IS NULL OR {CUBE}.item_quantity_by_spu = 0)
+            AND ({CUBE}.line_item_gmv_usd_by_spu IS NULL OR {CUBE}.line_item_gmv_usd_by_spu = 0)
+            AND ({CUBE}.line_item_tax_amount_usd_by_spu IS NULL OR {CUBE}.line_item_tax_amount_usd_by_spu = 0)
+            AND ({CUBE}.fb_spend_usd_by_spu IS NULL OR {CUBE}.fb_spend_usd_by_spu = 0)
+            AND ({CUBE}.fb_inline_link_clicks_by_spu IS NULL OR {CUBE}.fb_inline_link_clicks_by_spu = 0)
+            AND ({CUBE}.split_fb_spend_usd_by_spu IS NULL OR {CUBE}.split_fb_spend_usd_by_spu = 0)
+            AND ({CUBE}.split_google_spend_usd_by_spu IS NULL OR {CUBE}.split_google_spend_usd_by_spu = 0)
+          )
+
     pre_aggregations:
       - name: main
         dimensions:

@@ -1,6 +1,6 @@
 views:
   - name: shopify_orders_spu_view
-    description: "Shopify按SPU聚合的订单和广告数据视图"
+    description: "Shopify按SPU聚合的订单和广告数据视图（已应用所有筛选器：有效SPU、非AI产品、有活动数据）"
     
     cubes:
       - join_path: shopify_orders_aggby_spu
@@ -45,3 +45,21 @@ views:
           - itemspurchased
           - itemscheckedout
           - itemrevenue
+          - valid_spu
+          - non_ai_product
+          - has_activity
+    
+    access_policy:
+      - role: "*"
+        row_level:
+          filters:
+            - and:
+              - member: valid_spu
+                operator: equals
+                values: [true]
+              - member: non_ai_product
+                operator: equals
+                values: [true]
+              - member: has_activity
+                operator: equals
+                values: [true]

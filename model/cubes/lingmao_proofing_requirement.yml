@@ -161,6 +161,10 @@ cubes:
         sql: shipping_weight
         type: sum
 
+    segments:
+      - name: exclude_pending_source
+        sql: "{CUBE}.source_name <> '待定'"
+
     pre_aggregations:
       # Pre-aggregation definitions go here.
       # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started

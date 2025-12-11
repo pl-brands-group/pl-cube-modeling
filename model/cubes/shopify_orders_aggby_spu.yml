@@ -7,7 +7,7 @@ cubes:
 
     dimensions:
       - name: date
-        sql: date
+        sql: "CAST({CUBE}.date AS TIMESTAMP)"
         type: time
         primary_key: true
 

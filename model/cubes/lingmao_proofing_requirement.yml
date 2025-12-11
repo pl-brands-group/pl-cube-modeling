@@ -1,0 +1,176 @@
+cubes:
+  - name: lingmao_proofing_requirement
+    sql_table: lingmao.dwd_proofing_requirement
+    data_source: default
+
+    joins:
+      - name: shopify_orders_aggby_spu
+        sql: "{CUBE}.sample_code = {shopify_orders_aggby_spu.spu_id}"
+        relationship: one_to_many
+
+    dimensions:
+      - name: id
+        sql: id
+        type: string
+        primary_key: true
+
+      #spu
+      - name: sample_code
+        sql: sample_code
+        type: string
+
+      - name: sample_name
+        sql: sample_name
+        type: string
+
+      - name: img_url
+        sql: img_url
+        type: string
+     
+      #su_name
+      - name: planing_name
+        sql: planing_name
+        type: string
+
+      - name: research_archive_state_desc
+        sql: research_archive_state_desc
+        type: string
+
+      - name: template_type
+        sql: template_type
+        type: string
+
+      - name: audit_state_value
+        sql: audit_state_value
+        type: string
+
+      - name: proofing_mode_name
+        sql: proofing_mode_name
+        type: string
+
+      - name: sample_progress
+        sql: sample_progress
+        type: string
+
+      - name: review_progress
+        sql: review_progress
+        type: string
+
+      - name: review
+        sql: review
+        type: string
+
+      - name: proofing_code
+        sql: proofing_code
+        type: string
+
+      - name: supplier_name
+        sql: supplier_name
+        type: string
+
+      - name: designer
+        sql: designer
+        type: string
+
+      - name: brand_name
+        sql: brand_name
+        type: string
+
+      - name: year_name
+        sql: year_name
+        type: string
+
+      - name: band_name
+        sql: band_name
+        type: string
+
+      - name: category
+        sql: category
+        type: string
+
+      - name: source_name
+        sql: source_name
+        type: string
+
+      - name: creator_name
+        sql: creator_name
+        type: string
+
+      - name: creation_time
+        sql: creation_time
+        type: string
+
+      - name: last_modification_time
+        sql: last_modification_time
+        type: string
+
+
+
+      - name: color_code
+        sql: color_code
+        type: string
+
+      - name: sku_code
+        sql: sku_code
+        type: string
+
+      - name: spu_id
+        sql: spu_id
+        type: string
+
+      - name: sample_plan_start
+        sql: sample_plan_start
+        type: time
+
+      - name: sample_plan_end
+        sql: sample_plan_end
+        type: time
+
+      - name: sample_actual_start
+        sql: sample_actual_start
+        type: time
+
+      - name: sample_actual_end
+        sql: sample_actual_end
+        type: time
+
+      - name: review_plan_start
+        sql: review_plan_start
+        type: time
+
+      - name: review_plan_end
+        sql: review_plan_end
+        type: time
+
+      - name: review_actual_start
+        sql: review_actual_start
+        type: time
+
+      - name: review_actual_end
+        sql: review_actual_end
+        type: time
+
+    measures:
+      - name: count
+        type: count
+
+      - name: msrp
+        sql: msrp
+        type: sum
+
+      - name: fob_price
+        sql: fob_price
+        type: sum
+
+      - name: shipping_weight
+        sql: shipping_weight
+        type: sum
+
+    segments:
+      - name: exclude_pending_source
+        sql: "{CUBE}.source_name <> '待定'"
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

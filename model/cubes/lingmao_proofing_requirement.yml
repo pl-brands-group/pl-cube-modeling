@@ -3,7 +3,10 @@ cubes:
     sql_table: lingmao.dwd_proofing_requirement
     data_source: default
 
-    joins: []
+    joins:
+      - name: shopify_orders_aggby_spu
+        sql: "{CUBE}.sample_code = {shopify_orders_aggby_spu.spu_id}"
+        relationship: one_to_many
 
     dimensions:
       - name: id

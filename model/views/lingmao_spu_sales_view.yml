@@ -12,7 +12,7 @@ views:
           # Segments
           - exclude_pending_source
       
-      - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
+      - join_path: shopify_orders_aggby_spu
         prefix: true
         includes:
           # 维度字段

@@ -8,6 +8,7 @@ views:
           - sample_code
           - planing_name
           - exclude_pending_source
+          - img_url
       
       - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
         includes:

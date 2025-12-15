@@ -1,0 +1,112 @@
+cubes:
+  - name: ads_sales_date_shopify_tmall_amozon
+    sql_table: product_base_info_all.ads_sales_date_shopify_tmall_amozon
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: date
+        sql: date
+        type: time
+        primary_key: true
+
+      - name: channel
+        sql: channel
+        type: string
+        primary_key: true
+
+      - name: spu
+        sql: spu
+        type: string
+        primary_key: true
+    
+
+    measures:
+      - name: count
+        type: count
+        
+      - name: sales_qty
+        sql: sales_qty
+        type: number
+
+      - name: gmv
+        sql: gmv
+        type: number
+
+      - name: ads_cost
+        sql: ads_cost
+        type: number
+
+      - name: cost_of_goods_sold
+        sql: cost_of_goods_sold
+        type: number
+
+      - name: commission_fee
+        sql: commission_fee
+        type: number
+
+      - name: support_staff_fee
+        sql: support_staff_fee
+        type: number
+
+      - name: dev_fee
+        sql: dev_fee
+        type: number
+
+      - name: taxa
+        sql: "{CUBE}.`taxA`"
+        type: number
+
+      - name: taxb
+        sql: "{CUBE}.`taxB`"
+        type: number
+
+      - name: operation_staff_fee
+        sql: operation_staff_fee
+        type: number
+
+      - name: shipping
+        sql: shipping
+        type: number
+
+      - name: refunda
+        sql: "{CUBE}.`refundA`"
+        type: number
+
+      - name: refundb
+        sql: "{CUBE}.`refundB`"
+        type: number
+
+      - name: warehouse
+        sql: warehouse
+        type: number
+
+      - name: other_cost
+        sql: other_cost
+        type: number
+
+      - name: net_income
+        sql: net_income
+        type: number
+
+      - name: taxc_nashuibi
+        sql: "{CUBE}.`taxC_nashuibi`"
+        type: number
+
+      - name: profit
+        sql: profit
+        type: number
+
+      - name: taxc
+        sql: "{CUBE}.`taxC`"
+        type: number
+
+      - name: net_profit
+        sql: net_profit
+        type: number
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

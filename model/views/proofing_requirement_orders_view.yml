@@ -1,0 +1,43 @@
+views:
+  - name: proofing_requirement_orders_view
+    description: View combining proofing requirement data with shopify orders aggregated by SPU
+
+    cubes:
+      - join_path: lingmao_proofing_requirement
+        includes:
+          # dimensions from lingmao_proofing_requirement
+          - spu_id
+          - skc_id
+          - title
+          - planing_name
+          - img_url
+          - category
+          - listing_date
+          - earliest_delivery_date
+          
+          # segments from lingmao_proofing_requirement
+          - exclude_pending_source
+
+      - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
+        prefix: true
+        includes:
+          # dimensions from shopify_orders_aggby_spu
+          - spu_id
+          - date
+          - country_code
+          - is_ai_product
+          
+          # measures from shopify_orders_aggby_spu
+          - line_item_gmv_usd_by_spu
+          - split_target_fb_spend_by_spu
+          - item_quantity_by_spu
+          - split_fb_spend_usd_by_spu
+          - fb_spend_usd_by_spu
+          - fb_inline_link_clicks_by_spu
+          - line_item_tax_amount_usd_by_spu
+          - itemsviewed
+          
+          # segments from shopify_orders_aggby_spu
+          - valid_spu
+          - non_ai_product
+          - has_activity

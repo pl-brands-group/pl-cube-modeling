@@ -7,7 +7,7 @@ views:
       - join_path: lingmao_proofing_requirement
         includes:
           # 维度字段
-          - spu
+          - spu_id
           - img_url
           - planing_name
           

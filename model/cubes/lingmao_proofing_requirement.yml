@@ -15,7 +15,7 @@ cubes:
         primary_key: true
 
       #spu
-      - name: spu
+      - name: spu_id
         sql: sample_code
         type: string
 

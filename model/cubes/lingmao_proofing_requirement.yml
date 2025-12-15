@@ -5,7 +5,7 @@ cubes:
 
     joins:
       - name: shopify_orders_aggby_spu
-        sql: "{CUBE}.sample_code = {shopify_orders_aggby_spu.spu_id}"
+        sql: "{CUBE}.spu = {shopify_orders_aggby_spu.spu_id}"
         relationship: one_to_many
 
     dimensions:
@@ -15,7 +15,7 @@ cubes:
         primary_key: true
 
       #spu
-      - name: sample_code
+      - name: spu
         sql: sample_code
         type: string
 

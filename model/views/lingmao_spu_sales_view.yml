@@ -16,10 +16,10 @@ views:
       
       # 左连接：Shopify订单聚合数据
       - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
-        prefix: true
         includes:
           # 维度字段
-          - date
+          - name: date
+            alias: order_date
           - country_code
           
           # 指标字段

@@ -15,7 +15,7 @@ cubes:
         primary_key: true
 
       #spu
-      - name: spu_id
+      - name: sample_code
         sql: sample_code
         type: string
 
@@ -159,6 +159,11 @@ cubes:
       - name: title
         sql: title
         type: string
+      
+      - name: category_variants
+        sql: category_variants
+        type: string
+      
       
     measures:
       - name: count

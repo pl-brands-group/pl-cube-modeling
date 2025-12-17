@@ -41,6 +41,11 @@ cubes:
         sql: po_date
         type: time
 
+      - name: po_year_month
+        sql: "FORMAT_DATE('%Y-%m', {CUBE}.po_date)"
+        type: string
+        description: 采购单日期的年月
+
     measures:
       - name: count
         type: count
@@ -83,7 +88,7 @@ cubes:
           {CUBE}.item_type = '成品'
           AND DATE({CUBE}.po_date) > DATE '2025-02-28'
           AND {CUBE}.status IN ('Confirmed', 'Finished')
-          AND ({CUBE}.labels NOT IN ('返修单', '返修退货', '代售') OR {CUBE}.labels IS NULL)
+          AND ({CUBE}.labels NOT IN ('返修单', '返修退货', '代售','首单,代售') OR {CUBE}.labels IS NULL)
 
     pre_aggregations:
       # Pre-aggregation definitions go here.

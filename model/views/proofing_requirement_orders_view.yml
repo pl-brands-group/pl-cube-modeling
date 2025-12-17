@@ -1,43 +1,51 @@
 views:
   - name: proofing_requirement_orders_view
-    description: View combining proofing requirement data with shopify orders aggregated by SPU
-
+    description: "ai测款广告数据概况;打样需求与Shopify订单关联视图：以lingmao_proofing_requirement为主表，关联shopify_orders_aggby_spu数据"
+    
     cubes:
+      # 主表：打样需求表 lingmao_proofing_requirement
       - join_path: lingmao_proofing_requirement
         includes:
-          # dimensions from lingmao_proofing_requirement
-          - spu_id
+          # 维度字段
+          - sample_code
           - skc_id
           - title
           - planing_name
           - img_url
-          - category
+          - category_variants
           - listing_date
           - earliest_delivery_date
           
-          # segments from lingmao_proofing_requirement
+          # Segments
           - exclude_pending_source
-
+      
+      # 副表：Shopify订单聚合数据 shopify_orders_aggby_spu
       - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
-        prefix: true
         includes:
-          # dimensions from shopify_orders_aggby_spu
+          # 维度字段
           - spu_id
+          - is_ai_product
           - date
           - country_code
-          - is_ai_product
           
-          # measures from shopify_orders_aggby_spu
-          - line_item_gmv_usd_by_spu
-          - split_target_fb_spend_by_spu
+          # 指标字段
           - item_quantity_by_spu
           - split_fb_spend_usd_by_spu
           - fb_spend_usd_by_spu
           - fb_inline_link_clicks_by_spu
+          - line_item_gmv_usd_by_spu
           - line_item_tax_amount_usd_by_spu
+          - split_target_fb_spend_by_spu
           - itemsviewed
           
-          # segments from shopify_orders_aggby_spu
+          # 计算指标
+          - test_item_quantity_by_spu
+          - test_cpc
+          - cpc_30days
+          - target_roi
+          - roi
+          
+          # Segments
           - valid_spu
-          - non_ai_product
           - has_activity
+

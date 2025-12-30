@@ -21,20 +21,20 @@ cubes:
         type: string
 
       - name: is_ai_product
-        title: 是否AI产品
-        description: 标识该产品是否为AI类产品，用于区分AI和非AI产品线
+        title: 是否测款
+        description: 标识该产品是否为测款，用于区分测款和非测款
         sql: is_ai_product
         type: string
 
       - name: spu_id
-        title: SPU编号
+        title: SPU
         description: 标准产品单元ID，用于识别和分析特定产品的销售数据
         sql: spu_id
         type: string
 
       - name: country
         title: 国家
-        description: 订单发货国家/地区，用于地域销售分析
+        description: 订单发货国家，用于地域销售分析
         sql: country
         type: string
 
@@ -160,7 +160,7 @@ cubes:
         type: sum
 
       - name: sales_orders
-        title: 销售订单数
+        title: 订单数
         description: 实际销售完成的订单总数，不包含取消或全额退款的订单
         sql: sales_orders
         type: sum

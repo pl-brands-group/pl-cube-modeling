@@ -1,32 +1,39 @@
 views:
   - name: lingmao_spu_sales_view
-    description: "领猫SPU销售分析视图：以打样需求为主表，关联Shopify订单和广告数据"
+    description: "AI测款每日广告数据;领猫SPU销售分析视图：以打样需求为主表（左连接），关联Shopify订单数据"
     
     cubes:
+      # 主表：打样需求
       - join_path: lingmao_proofing_requirement
         includes:
           # 维度字段
           - sample_code
-          - planing_name
           - img_url
+          - planing_name
+          
           # Segments
           - exclude_pending_source
       
+      # 左连接：Shopify订单聚合数据
       - join_path: lingmao_proofing_requirement.shopify_orders_aggby_spu
-        prefix: true
         includes:
           # 维度字段
-          - is_ai_product
-          - date
+          - name: date
+            alias: order_date
           - country_code
+          - is_ai_product
+          
           # 指标字段
           - split_target_fb_roas_by_spu
-          - split_fb_spend_usd_by_spu
           - line_item_gmv_usd_by_spu
           - line_item_tax_amount_usd_by_spu
+          - split_fb_spend_usd_by_spu
           - fb_spend_usd_by_spu
           - fb_inline_link_clicks_by_spu
           - item_quantity_by_spu
+          - split_target_fb_roas_by_spu
+          - split_target_fb_spend_by_spu
+          
           # Segments
           - valid_spu
           - non_ai_product

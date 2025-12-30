@@ -104,18 +104,12 @@ cubes:
         sql: last_modification_time
         type: string
 
-
-
       - name: color_code
         sql: color_code
         type: string
 
       - name: sku_code
         sql: sku_code
-        type: string
-
-      - name: spu_id
-        sql: spu_id
         type: string
 
       - name: sample_plan_start
@@ -150,6 +144,27 @@ cubes:
         sql: review_actual_end
         type: time
 
+      - name: listing_date
+        sql: listing_date
+        type: time
+
+      - name: earliest_delivery_date
+        sql: earliest_delivery_date
+        type: time
+      
+      - name: skc_id
+        sql: skc_id
+        type: string
+
+      - name: title
+        sql: title
+        type: string
+      
+      - name: category_variants
+        sql: category_variants
+        type: string
+      
+      
     measures:
       - name: count
         type: count

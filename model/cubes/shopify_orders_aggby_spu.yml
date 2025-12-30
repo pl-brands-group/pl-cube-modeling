@@ -7,7 +7,7 @@ cubes:
 
     dimensions:
       - name: date
-        sql: date
+        sql: "CAST({CUBE}.date AS TIMESTAMP)"
         type: time
         primary_key: true
 
@@ -169,6 +169,74 @@ cubes:
         sql: "{CUBE}.`itemRevenue`"
         type: sum
 
+      # ========== 自定义计算字段 ==========
+      
+      # 1. AI产品销量
+      - name: test_item_quantity_by_spu
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'Y' THEN {CUBE}.item_quantity_by_spu ELSE 0 END"
+        type: sum
+        description: "测试_销量: AI产品的销量总和"
+      
+      # 2. AI产品的广告花费（用于计算test_cpc）
+      - name: ai_fb_spend
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'Y' THEN {CUBE}.fb_spend_usd_by_spu ELSE 0 END"
+        type: sum
+        description: "AI产品的FB广告花费"
+      
+      # 3. AI产品的点击数（用于计算test_cpc）
+      - name: ai_fb_clicks
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'Y' THEN {CUBE}.fb_inline_link_clicks_by_spu ELSE 0 END"
+        type: sum
+        description: "AI产品的FB点击数"
+      
+      # 4. AI产品的CPC
+      - name: test_cpc
+        sql: "{ai_fb_spend} / NULLIF({ai_fb_clicks}, 0)"
+        type: number
+        description: "测试_CPC: AI商品的 CPC = AI花费 / AI点击"
+      
+      # 5. 近30天非AI产品的广告花费
+      - name: non_ai_fb_spend_30d
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'N' AND {CUBE}.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) THEN {CUBE}.fb_spend_usd_by_spu ELSE 0 END"
+        type: sum
+        description: "近30天非AI产品的FB广告花费"
+      
+      # 6. 近30天非AI产品的点击数
+      - name: non_ai_fb_clicks_30d
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'N' AND {CUBE}.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) THEN {CUBE}.fb_inline_link_clicks_by_spu ELSE 0 END"
+        type: sum
+        description: "近30天非AI产品的FB点击数"
+      
+      # 7. 近30天CPC
+      - name: cpc_30days
+        sql: "{non_ai_fb_spend_30d} / NULLIF({non_ai_fb_clicks_30d}, 0)"
+        type: number
+        description: "近30天CPC: 非AI产品过去30天的CPC"
+      
+      # 8. 非AI产品的GMV（用于计算目标ROI）
+      - name: non_ai_gmv
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'N' THEN {CUBE}.line_item_gmv_usd_by_spu ELSE 0 END"
+        type: sum
+        description: "非AI产品的GMV"
+      
+      # 9. 非AI产品的目标广告花费（用于计算目标ROI）
+      - name: non_ai_target_spend
+        sql: "CASE WHEN {CUBE}.is_ai_product = 'N' THEN {CUBE}.split_target_fb_spend_by_spu ELSE 0 END"
+        type: sum
+        description: "非AI产品的目标广告花费"
+      
+      # 10. 目标ROI（重新定义的split_target_fb_roas）
+      - name: target_roi
+        sql: "CASE WHEN {non_ai_target_spend} = 0 THEN 3 ELSE {non_ai_gmv} / NULLIF({non_ai_target_spend}, 0) END"
+        type: number
+        description: "目标ROI: 非AI产品的GMV / 目标广告花费，当目标花费为0时返回3"
+      
+      # 11. ROI计算（GMV - Tax）/ 广告花费
+      - name: roi
+        sql: "({line_item_gmv_usd_by_spu} - {line_item_tax_amount_usd_by_spu}) / NULLIF({split_fb_spend_usd_by_spu}, 0)"
+        type: number
+        description: "ROI: (GMV - 税费) / 广告花费"
+
     segments:
       - name: valid_spu
         sql: "{CUBE}.spu_id IS NOT NULL AND {CUBE}.spu_id <> ''"
@@ -187,5 +255,3 @@ cubes:
             AND ({CUBE}.split_fb_spend_usd_by_spu IS NULL OR {CUBE}.split_fb_spend_usd_by_spu = 0)
             AND ({CUBE}.split_google_spend_usd_by_spu IS NULL OR {CUBE}.split_google_spend_usd_by_spu = 0)
           )
-
-    

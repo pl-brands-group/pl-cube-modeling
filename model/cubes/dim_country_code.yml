@@ -1,0 +1,34 @@
+cubes:
+  - name: dim_country_code
+    sql_table: DIM.dim_country_code
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: parent_id
+        sql: parent_id
+        type: string
+        primary_key: true
+
+      - name: country_code
+        sql: country_code
+        type: string
+        primary_key: true
+
+      - name: country
+        sql: country
+        type: string
+
+      - name: country_cn
+        sql: country_cn
+        type: string
+
+    measures:
+      - name: count
+        type: count
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

@@ -39,10 +39,6 @@ cubes:
         type: string
 
     measures:
-      - name: count
-        title: 记录数
-        description: 数据行记录总数，用于统计聚合后的数据条目数量
-        type: count
 
       # Base measures for fees
       - name: split_payoneer_fee_usd
@@ -158,7 +154,7 @@ cubes:
 
       # Base measures for sales metrics
       - name: sales_quantity
-        title: 销售数量
+        title: 销量
         description: 实际销售的产品件数总和，不包含退款
         sql: sales_quantity
         type: sum
@@ -170,38 +166,38 @@ cubes:
         type: sum
 
       - name: sales_tax_amount_usd
-        title: 销售税额
+        title: 销售收取税
         description: 订单产生的销售税金额总和，单位为美元
         sql: sales_tax_amount_usd
         type: sum
 
       - name: line_item_gmv_usd
-        title: 商品GMV
+        title: GMV
         description: 商品成交总额（Gross Merchandise Value），订单商品行级别的总销售额，单位为美元
         sql: line_item_gmv_usd
         type: sum
 
       # Base measures for refund amounts
       - name: created_order_unfulfilled_refund_amount_usd
-        title: 创建订单未履行退款额
+        title: 创建订单未发货退款额
         description: 订单创建后、发货前产生的退款金额，单位为美元
         sql: created_order_unfulfilled_refund_amount_usd
         type: sum
 
       - name: created_order_fulfilled_refund_amount_usd
-        title: 创建订单已履行退款额
+        title: 创建订单已发货退款额
         description: 订单创建并发货后产生的退款金额，单位为美元
         sql: created_order_fulfilled_refund_amount_usd
         type: sum
 
       - name: refund_order_unfulfilled_refund_amount_usd
-        title: 退款订单未履行退款额
+        title: 退款订单未发货退款额
         description: 退款订单中未发货部分的退款金额，单位为美元
         sql: refund_order_unfulfilled_refund_amount_usd
         type: sum
 
       - name: refund_order_fulfilled_refund_amount_usd
-        title: 退款订单已履行退款额
+        title: 退款订单已发货退款额
         description: 退款订单中已发货部分的退款金额，单位为美元
         sql: refund_order_fulfilled_refund_amount_usd
         type: sum

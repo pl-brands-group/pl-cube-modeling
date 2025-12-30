@@ -1,0 +1,384 @@
+cubes:
+  - name: orders_shopify_sales_cost_profit
+    title: Shopify利润模型
+    description: 包含shopify渠的销售,广告，成本等情况
+    sql_table: shopify_transform.dws_created_orders_aggby_country_sku
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: date
+        title: 日期
+        description: 订单创建日期，用于时间序列分析和趋势追踪
+        sql: date
+        type: time
+
+      - name: brand
+        title: 品牌
+        description: 产品所属品牌名称，用于区分不同品牌的销售表现
+        sql: brand
+        type: string
+
+      - name: is_ai_product
+        title: 是否AI产品
+        description: 标识该产品是否为AI类产品，用于区分AI和非AI产品线
+        sql: is_ai_product
+        type: string
+
+      - name: spu_id
+        title: SPU编号
+        description: 标准产品单元ID，用于识别和分析特定产品的销售数据
+        sql: spu_id
+        type: string
+
+      - name: country
+        title: 国家
+        description: 订单发货国家/地区，用于地域销售分析
+        sql: country
+        type: string
+
+    measures:
+      - name: count
+        title: 记录数
+        description: 数据行记录总数，用于统计聚合后的数据条目数量
+        type: count
+
+      # Base measures for fees
+      - name: split_payoneer_fee_usd
+        title: Payoneer其它费用
+        description: Payoneer支付的其它费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_payoneer_fee_usd
+        type: sum
+
+      - name: split_paypal_fee_usd
+        title: PayPal其它费用
+        description: PayPal支付的其它费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_paypal_fee_usd
+        type: sum
+
+      - name: split_wastwest_fee_usd
+        title: Wastwest其它费用
+        description: Wastwest支付的其它费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_wastwest_fee_usd
+        type: sum
+
+      - name: split_other_fee_usd
+        title: 轻流其他费用
+        description: 除主要支付渠道外的其它费，按业务规则分摊，单位为美元
+        sql: split_other_fee_usd
+        type: sum
+
+      # Base measures for ads
+      - name: split_no_spu_other_ads_spend_usd
+        title: 无SPU其他广告支出
+        description: 无法归因到具体SPU的其他广告渠道支出，按业务规则分摊，单位为美元
+        sql: split_no_spu_other_ads_spend_usd
+        type: sum
+
+      - name: split_bing_ads_spend_usd
+        title: Bing广告支出
+        description: Bing搜索引擎的广告投放费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_bing_ads_spend_usd
+        type: sum
+
+      - name: split_awin_ads_spend_usd
+        title: Awin联盟广告支出
+        description: Awin联盟营销平台的广告投放费用，按业务规则分摊，单位为美元
+        sql: split_awin_ads_spend_usd
+        type: sum
+
+      - name: split_fb_spend_usd
+        title: Facebook广告支出（分摊）
+        description: Facebook/Meta平台的广告投放费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_fb_spend_usd
+        type: sum
+
+      - name: split_google_spend_usd
+        title: Google广告支出（分摊）
+        description: Google Ads广告平台的投放费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_google_spend_usd
+        type: sum
+
+      - name: split_snapchat_spend_usd
+        title: Snapchat广告支出（分摊）
+        description: Snapchat社交平台的广告投放费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_snapchat_spend_usd
+        type: sum
+
+      - name: split_shareAsale_ads_spend_usd
+        title: ShareASale联盟广告支出
+        description: ShareASale联盟营销网络的广告投放费用，按业务规则分摊，单位为美元
+        sql: split_shareAsale_ads_spend_usd
+        type: sum
+
+      - name: fb_spend_usd
+        title: Facebook广告支出（不分摊）
+        description: Facebook/Meta平台的广告投放费用总额（未分摊），单位为美元
+        sql: fb_spend_usd
+        type: sum
+
+      - name: google_spend_usd
+        title: Google广告支出（不分摊）
+        description: Google Ads广告平台的投放费用总额（未分摊），单位为美元
+        sql: google_spend_usd
+        type: sum
+
+      - name: snapchat_spend_usd
+        title: Snapchat广告支出（不分摊）
+        description: Snapchat社交平台的广告投放费用总额（未分摊），单位为美元
+        sql: snapchat_spend_usd
+        type: sum
+
+      # Base measures for KOL costs
+      - name: kol_product_cost_usd
+        title: KOL产品成本
+        description: 支付给KOL（意见领袖）的产品相关成本费用，单位为美元
+        sql: kol_product_cost_usd
+        type: sum
+
+      - name: kol_shipping_cost_usd
+        title: KOL物流成本
+        description: 支付给KOL（意见领袖）的物流配送相关成本费用，单位为美元
+        sql: kol_shipping_cost_usd
+        type: sum
+
+      # Base measures for platform fees
+      - name: sales_platform_fee_usd
+        title: 销售平台手续费
+        description: Shopify等电商平台收取的交易手续费（销售产生），单位为美元
+        sql: sales_platform_fee_usd
+        type: sum
+
+      - name: refund_platform_fee_usd
+        title: 退款平台手续费
+        description: 退款订单退回的平台手续费金额，单位为美元
+        sql: refund_platform_fee_usd
+        type: sum
+
+      # Base measures for sales metrics
+      - name: sales_quantity
+        title: 销售数量
+        description: 实际销售的产品件数总和，不包含退款
+        sql: sales_quantity
+        type: sum
+
+      - name: sales_orders
+        title: 销售订单数
+        description: 实际销售完成的订单总数，不包含取消或全额退款的订单
+        sql: sales_orders
+        type: sum
+
+      - name: sales_tax_amount_usd
+        title: 销售税额
+        description: 订单产生的销售税金额总和，单位为美元
+        sql: sales_tax_amount_usd
+        type: sum
+
+      - name: line_item_gmv_usd
+        title: 商品GMV
+        description: 商品成交总额（Gross Merchandise Value），订单商品行级别的总销售额，单位为美元
+        sql: line_item_gmv_usd
+        type: sum
+
+      # Base measures for refund amounts
+      - name: created_order_unfulfilled_refund_amount_usd
+        title: 创建订单未履行退款额
+        description: 订单创建后、发货前产生的退款金额，单位为美元
+        sql: created_order_unfulfilled_refund_amount_usd
+        type: sum
+
+      - name: created_order_fulfilled_refund_amount_usd
+        title: 创建订单已履行退款额
+        description: 订单创建并发货后产生的退款金额，单位为美元
+        sql: created_order_fulfilled_refund_amount_usd
+        type: sum
+
+      - name: refund_order_unfulfilled_refund_amount_usd
+        title: 退款订单未履行退款额
+        description: 退款订单中未发货部分的退款金额，单位为美元
+        sql: refund_order_unfulfilled_refund_amount_usd
+        type: sum
+
+      - name: refund_order_fulfilled_refund_amount_usd
+        title: 退款订单已履行退款额
+        description: 退款订单中已发货部分的退款金额，单位为美元
+        sql: refund_order_fulfilled_refund_amount_usd
+        type: sum
+
+      # Base measures for costs
+      - name: sales_product_purchased_cost_usd
+        title: 销售产品采购成本
+        description: 已销售产品的采购成本总额，单位为美元
+        sql: sales_product_purchased_cost_usd
+        type: sum
+
+      - name: inuse_est_actual_shipping_cost_usd
+        title: 物流成本
+        description: 创建口径订单实际产生的物流配送成本+估算值，为默认的运费成本，单位为美元；
+        sql: inuse_est_actual_shipping_cost_usd
+        type: sum
+
+      - name: fulfilled_inuse_est_actual_shipping_cost_usd
+        title: 发货物流成本
+        description: 已完成发货的订单实际物流配送成本，单位为美元
+        sql: fulfilled_inuse_est_actual_shipping_cost_usd
+        type: sum
+
+      - name: warehousing_cost_usd
+        title: 仓储成本
+        description: 产品仓储保管、处理等相关费用，单位为美元
+        sql: warehousing_cost_usd
+        type: sum
+
+      # Base measures for staff costs
+      - name: split_product_dev_cost_usd
+        title: 产品开发成本
+        description: 产品研发人员的成本费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_product_dev_cost_usd
+        type: sum
+
+      - name: split_support_staff_cost_usd
+        title: 支持人员成本
+        description: 客户支持服务人员的成本费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_support_staff_cost_usd
+        type: sum
+
+      - name: split_operations_staff_cost_usd
+        title: 运营人员成本
+        description: 运营管理人员的成本费用，按业务规则分摊到各产品维度，单位为美元
+        sql: split_operations_staff_cost_usd
+        type: sum
+
+      # Base measures for FB metrics (split)
+      - name: split_fb_impressions
+        title: FB广告曝光量（分摊）
+        description: Facebook/Meta广告的展示次数，按业务规则分摊到各产品维度
+        sql: split_fb_impressions
+        type: sum
+
+      - name: split_fb_inline_link_clicks
+        title: FB链接点击量（分摊）
+        description: Facebook/Meta广告的内联链接点击次数，按业务规则分摊到各产品维度
+        sql: split_fb_inline_link_clicks
+        type: sum
+
+      - name: split_fb_add_to_cart
+        title: FB加购次数（分摊）
+        description: Facebook/Meta广告带来的加入购物车行为次数，按业务规则分摊到各产品维度
+        sql: split_fb_add_to_cart
+        type: sum
+
+      - name: split_fb_purchase
+        title: FB购买转化（分摊）
+        description: Facebook/Meta广告带来的购买转化次数，按业务规则分摊到各产品维度
+        sql: split_fb_purchase
+        type: sum
+
+      - name: split_fb_purchase_gmv
+        title: FB购买GMV（分摊）
+        description: Facebook/Meta广告带来的购买转化金额，按业务规则分摊到各产品维度，单位为美元
+        sql: split_fb_purchase_gmv
+        type: sum
+
+      # Base measures for FB metrics (non-split)
+      - name: fb_impressions
+        title: FB广告曝光量（不分摊）
+        description: Facebook/Meta广告的展示次数总计（未分摊）
+        sql: fb_impressions
+        type: sum
+
+      - name: fb_inline_link_clicks
+        title: FB链接点击量（不分摊）
+        description: Facebook/Meta广告的内联链接点击次数总计（未分摊）
+        sql: fb_inline_link_clicks
+        type: sum
+
+      - name: fb_add_to_cart
+        title: FB加购次数（不分摊）
+        description: Facebook/Meta广告带来的加入购物车行为次数总计（未分摊）
+        sql: fb_add_to_cart
+        type: sum
+
+      - name: fb_purchase
+        title: FB购买转化（不分摊）
+        description: Facebook/Meta广告带来的购买转化次数总计（未分摊）
+        sql: fb_purchase
+        type: sum
+
+      - name: fb_purchase_gmv
+        title: FB购买GMV（不分摊）
+        description: Facebook/Meta广告带来的购买转化金额总计（未分摊），单位为美元
+        sql: fb_purchase_gmv
+        type: sum
+
+      # Calculated measures with null handling
+      - name: other_cost_usd
+        title: 其他成本合计
+        description: 其他各类手续费用的总和（Payoneer+PayPal+Wastwest+其他），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({split_payoneer_fee_usd}, 0) + 
+          COALESCE({split_paypal_fee_usd}, 0) + 
+          COALESCE({split_wastwest_fee_usd}, 0) + 
+          COALESCE({split_other_fee_usd}, 0)
+
+      - name: other_ads_usd
+        title: 其他广告支出合计
+        description: 其他广告渠道支出总和（无SPU其他广告+Bing+Awin），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({split_no_spu_other_ads_spend_usd}, 0) + 
+          COALESCE({split_bing_ads_spend_usd}, 0) + 
+          COALESCE({split_awin_ads_spend_usd}, 0)
+
+      - name: kol_ads_cost
+        title: KOL广告成本合计
+        description: KOL营销的总成本（产品成本+物流成本），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({kol_product_cost_usd}, 0) + 
+          COALESCE({kol_shipping_cost_usd}, 0)
+
+      - name: platform_fee_usd
+        title: 平台手续费净值
+        description: 平台手续费净额（销售手续费-退款返还手续费），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({sales_platform_fee_usd}, 0) - 
+          COALESCE({refund_platform_fee_usd}, 0)
+
+      - name: split_ad_spend_usd
+        title: 广告总支出（分摊）
+        description: 所有广告渠道的总投放费用（FB+Google+Snapchat+KOL+Bing+Awin+ShareASale+其他，分摊版本），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({split_fb_spend_usd}, 0) + 
+          COALESCE({split_google_spend_usd}, 0) + 
+          COALESCE({split_snapchat_spend_usd}, 0) + 
+          COALESCE({kol_product_cost_usd}, 0) + 
+          COALESCE({kol_shipping_cost_usd}, 0) + 
+          COALESCE({split_bing_ads_spend_usd}, 0) + 
+          COALESCE({split_awin_ads_spend_usd}, 0) + 
+          COALESCE({split_shareAsale_ads_spend_usd}, 0) + 
+          COALESCE({split_no_spu_other_ads_spend_usd}, 0)
+
+      - name: ad_spend_usd
+        title: 广告总支出（不分摊）
+        description: 所有广告渠道的总投放费用（FB+Google+Snapchat+KOL+Bing+Awin+ShareASale+其他，未分摊版本），已处理空值，单位为美元
+        type: number
+        sql: |
+          COALESCE({fb_spend_usd}, 0) + 
+          COALESCE({google_spend_usd}, 0) + 
+          COALESCE({snapchat_spend_usd}, 0) + 
+          COALESCE({kol_product_cost_usd}, 0) + 
+          COALESCE({kol_shipping_cost_usd}, 0) + 
+          COALESCE({split_bing_ads_spend_usd}, 0) + 
+          COALESCE({split_awin_ads_spend_usd}, 0) + 
+          COALESCE({split_shareAsale_ads_spend_usd}, 0) + 
+          COALESCE({split_no_spu_other_ads_spend_usd}, 0)
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+

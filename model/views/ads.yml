@@ -1,0 +1,22 @@
+views:
+  - name: ads
+    title: Ads Domain
+    description: Semantic layer for ads-related cubes only
+    public: true
+
+    cubes:
+      # 只暴露 ads_cubes 里的 cube
+      - join_path: orders_shopify_sales_cost_profit
+        includes:
+          # 维度
+          - date
+          - brand
+          - is_ai_product
+          - spu_id
+          - country
+
+          # 指标
+          - split_payoneer_fee_usd
+          - split_paypal_fee_usd
+          - split_wastwest_fee_usd
+          - split_other_fee_usd

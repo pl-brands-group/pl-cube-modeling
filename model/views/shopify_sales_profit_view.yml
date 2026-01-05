@@ -1,11 +1,7 @@
 views:
 
   - name: shopify_sales_profit_view
-<<<<<<< HEAD
     title: Shopify利润模型
-=======
-    title: shopify利润模型
->>>>>>> upstream/master
     cubes:
       - join_path: orders_shopify_sales_cost_profit
         includes: "*"

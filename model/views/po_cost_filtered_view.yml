@@ -1,5 +1,6 @@
 views:
   - name: po_cost_filtered_view
+    title: 聚水潭采购入库
     description: 聚水潭采购入库概况；成品采购成本汇总视图（已过滤）- 仅包含成品、2025-02-28之后、已确认/完成状态、非返修/代售订单
     
     cubes:

@@ -1,89 +1,127 @@
 cubes:
   - name: po_cost
+    title: 采购成本汇总表
+    description: 聚水潭采购入库单概况，包含采购单信息、数量、价格、延迟成本等维度
     sql_table: Jushuitan.dws_po_cost_summary
     data_source: default
-    description: 聚水潭采购入库单概况
 
 
     joins: []
 
     dimensions:
       - name: po_id
+        title: 采购单ID
+        description: 采购单唯一标识符
         sql: po_id
         type: number
         primary_key: true
 
       - name: status
+        title: 状态
+        description: 采购单状态（如Confirmed、Finished等）
         sql: status
         type: string
 
       - name: item_type
+        title: 商品类型
+        description: 商品类型（如成品、原材料等）
         sql: item_type
         type: string
 
       - name: labels
+        title: 标签
+        description: 采购单标签（如返修单、代售等）
         sql: labels
         type: string
 
       - name: is_finished
+        title: 是否完成
+        description: 采购单是否已完成
         sql: is_finished
         type: string
 
       - name: seller
+        title: 供应商
+        description: 供应商名称
         sql: seller
         type: string
 
       - name: seller_shorted
+        title: 供应商简称
+        description: 供应商简称
         sql: seller_shorted
         type: string
 
       - name: po_date
+        title: 采购日期
+        description: 采购单日期
         sql: po_date
         type: time
 
       - name: po_year_month
+        title: 采购年月
+        description: 采购单日期的年月
         sql: "FORMAT_DATE('%Y-%m', {CUBE}.po_date)"
         type: string
-        description: 采购单日期的年月
 
     measures:
       - name: count
+        title: 计数
+        description: 采购单记录总数
         type: count
 
       - name: sum_qty
+        title: 总数量
+        description: 采购商品总数量
         sql: sum_qty
         type: sum
 
       - name: sum_inqty
+        title: 已入库数量
+        description: 已入库商品数量总和
         sql: sum_inqty
         type: sum
 
       - name: sum_uninqty
+        title: 未入库数量
+        description: 未入库商品数量总和
         sql: sum_uninqty
         type: sum
 
       - name: completion_rate
+        title: 完成率
+        description: 采购完成率平均值
         sql: completion_rate
         type: avg
 
       - name: sum_price
+        title: 总价格
+        description: 采购商品总价格
         sql: sum_price
         type: sum
 
       - name: po_unreceived_delay_cost
+        title: 未收货延迟成本
+        description: 未收货导致的延迟成本
         sql: po_unreceived_delay_cost
         type: sum
 
       - name: po_received_delay_cost
+        title: 已收货延迟成本
+        description: 已收货导致的延迟成本
         sql: po_received_delay_cost
         type: sum
 
       - name: total_delay_cost
+        title: 总延迟成本
+        description: 总延迟成本（未收货+已收货）
         sql: total_delay_cost
         type: sum
 
     segments:
       - name: finished_products_segment
+        title: 成品采购段
+        description: 过滤出成品类型、日期在2025-02-28之后、状态为已确认或已完成、且标签不是返修单/返修退货/代售的记
         sql: |
           {CUBE}.item_type = '成品'
           AND DATE({CUBE}.po_date) > DATE '2025-02-28'

@@ -1,5 +1,6 @@
 views:
   - name: proofing_requirement_orders_view
+    title: 打样需求销售广告概况
     description: "ai测款广告数据概况;打样需求与Shopify订单关联视图：以lingmao_proofing_requirement为主表，关联shopify_orders_aggby_spu数据"
     
     cubes:

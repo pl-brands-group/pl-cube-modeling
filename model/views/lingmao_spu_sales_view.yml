@@ -1,5 +1,6 @@
 views:
   - name: lingmao_spu_sales_view
+    title: 打样需求销售分析
     description: "AI测款每日广告数据;领猫SPU销售分析视图：以打样需求为主表（左连接），关联Shopify订单数据"
     
     cubes:

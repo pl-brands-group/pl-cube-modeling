@@ -1,5 +1,7 @@
 cubes:
   - name: dim_country_code
+    title: 国家代码维度表
+    description: 国家代码维度表，包含国家代码、国家名称等维度信息
     sql_table: DIM.dim_country_code
     data_source: default
 
@@ -7,20 +9,28 @@ cubes:
 
     dimensions:
       - name: parent_id
+        title: 父级ID
+        description: 父级国家代码ID，用于层级关系
         sql: parent_id
         type: string
         primary_key: true
 
       - name: country_code
+        title: 国家代码
+        description: 国家代码，ISO标准国家代码
         sql: country_code
         type: string
         primary_key: true
 
       - name: country
+        title: 国家名称（英文）
+        description: 国家英文名称
         sql: country
         type: string
 
       - name: country_cn
+        title: 国家名称（中文）
+        description: 国家中文
         sql: country_cn
         type: string
 

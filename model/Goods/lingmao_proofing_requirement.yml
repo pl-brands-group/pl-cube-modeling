@@ -1,5 +1,7 @@
 cubes:
   - name: lingmao_proofing_requirement
+    title: 领猫打样需求表
+    description: 灵猫打样需求数据表，包含样品信息、打样进度、审核进度、供应商、设计师等维度信息
     sql_table: lingmao.dwd_proofing_requirement
     data_source: default
 
@@ -10,37 +12,53 @@ cubes:
 
     dimensions:
       - name: id
+        title: 主键ID
+        description: 打样需求记录的唯一标识符
         sql: id
         type: string
         primary_key: true
 
       #spu
       - name: sample_code
+        title: 样品代码
+        description: 样品代码（SPU标识）
         sql: sample_code
         type: string
 
       - name: sample_name
+        title: 样品代码
+        description: 样品代码（SPU标识）
         sql: sample_name
         type: string
 
       - name: img_url
+        title: 图片地址
+        description: 样品图片URL地址
         sql: img_url
         type: string
      
       #su_name
       - name: planing_name
+        title: 规划名称
+        description: 规划名称（SU名称）
         sql: planing_name
         type: string
 
       - name: research_archive_state_desc
+        title: 研发归档状态描述
+        description: 研发归档状态描述信息
         sql: research_archive_state_desc
         type: string
 
       - name: template_type
+        title: 模板类型
+        description: 模板类型
         sql: template_type
         type: string
 
       - name: audit_state_value
+        title: 审核状态值
+        description: 审核状态值
         sql: audit_state_value
         type: string
 
@@ -49,30 +67,44 @@ cubes:
         type: string
 
       - name: sample_progress
+        title: 样品进度
+        description: 样品制作进度
         sql: sample_progress
         type: string
 
       - name: review_progress
+        title: 审核进度
+        description: 审核进度
         sql: review_progress
         type: string
 
       - name: review
+        title: 审核
+        description: 审核信息
         sql: review
         type: string
 
       - name: proofing_code
+        title: 打样代码
+        description: 打样代码
         sql: proofing_code
         type: string
 
       - name: supplier_name
+        title: 供应商名称
+        description: 供应商名称
         sql: supplier_name
         type: string
 
       - name: designer
+        title: 设计师
+        description: 设计师名称
         sql: designer
         type: string
 
       - name: brand_name
+        title: 品牌名称
+        description: 品牌名称
         sql: brand_name
         type: string
 
@@ -85,82 +117,122 @@ cubes:
         type: string
 
       - name: category
+        title: 品类
+        description: 产品品类
         sql: category
         type: string
 
       - name: source_name
+        title: 来源名称
+        description: 数据来源名称
         sql: source_name
         type: string
 
       - name: creator_name
+        title: 创建人名称
+        description: 记录创建人名称
         sql: creator_name
         type: string
 
       - name: creation_time
+        title: 创建时间
+        description: 记录创建时间
         sql: creation_time
         type: string
 
       - name: last_modification_time
+        title: 最后修改时间
+        description: 记录最后修改时间
         sql: last_modification_time
         type: string
 
       - name: color_code
+        title: 颜色代码
+        description: 颜色代码
         sql: color_code
         type: string
 
       - name: sku_code
+        title: SKU代码
+        description: SKU代码
         sql: sku_code
         type: string
 
       - name: sample_plan_start
+        title: 样品计划开始时间
+        description: 样品制作计划开始时间
         sql: sample_plan_start
         type: time
 
       - name: sample_plan_end
+        title: 样品计划结束时间
+        description: 样品制作计划结束时间
         sql: sample_plan_end
         type: time
 
       - name: sample_actual_start
+        title: 样品实际开始时间
+        description: 样品制作实际开始时间
         sql: sample_actual_start
         type: time
 
       - name: sample_actual_end
+        title: 样品实际结束时间
+        description: 样品制作实际结束时间
         sql: sample_actual_end
         type: time
 
       - name: review_plan_start
+        title: 审核计划开始时间
+        description: 审核计划开始时间
         sql: review_plan_start
         type: time
 
       - name: review_plan_end
+        title: 审核计划结束时间
+        description: 审核计划结束时间
         sql: review_plan_end
         type: time
 
       - name: review_actual_start
+        title: 审核实际开始时间
+        description: 审核实际开始时间
         sql: review_actual_start
         type: time
 
       - name: review_actual_end
+        title: 审核实际结束时间
+        description: 审核实际结束时间
         sql: review_actual_end
         type: time
 
       - name: listing_date
+        title: 上架日期
+        description: 产品上架日期
         sql: listing_date
         type: time
 
       - name: earliest_delivery_date
+        title: 最早交付日期
+        description: 最早交付日期
         sql: earliest_delivery_date
         type: time
       
       - name: skc_id
+        title: SKC
+        description: SKC标识符
         sql: skc_id
         type: string
 
       - name: title
+        title: 标题
+        description: 产品标题
         sql: title
         type: string
       
       - name: category_variants
+        title: 品类变体
+        description: 品类变体信息
         sql: category_variants
         type: string
       
@@ -170,14 +242,20 @@ cubes:
         type: count
 
       - name: msrp
+        title: 建议零售价
+        description: 建议零售价（MSRP）
         sql: msrp
         type: sum
 
       - name: fob_price
+        title: FOB价格
+        description: 成本价
         sql: fob_price
         type: sum
 
       - name: shipping_weight
+        title: 运输重量
+        description: 运输重量总和
         sql: shipping_weight
         type: sum
 
